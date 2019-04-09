@@ -13,9 +13,10 @@ var Item = mongoose.model("Item", itemSchema);
 
 module.exports = {
   fetchProducts: callback => {
-    Item.find((err, data) => {
+    Item.find((err, dat) => {
+      console.log("this is the data: ", dat);
       if (err) return callback(err);
-      callback(null, data);
+      callback(null, dat);
     });
   },
   writeUpdate: (data, callback) => {
