@@ -1,28 +1,35 @@
 const model = require("./database/models/products");
 module.exports = {
-  getProducts: (req, res) => {
-    model.fetchProducts((err, data) => {
-      if (err) res.status(404).send(err);
-      res.status(200).send(data);
-    });
+  getProducts: async (req, res) => {
+    try {
+      const results = await model.fetchProducts();
+      res.status(200).send(results);
+    } catch (err) {
+      return res.status(404).send(err);
+    }
   },
-  productUpdate: (req, res) => {
-    model.writeUpdate(req.body, (err, data) => {
-      if (err) res.status(404).send(err);
-      res.status(201).send(data);
-    });
+  productUpdate: async (req, res) => {
+    try {
+      const results = model.writeUpdate();
+      res.status(201).send(results);
+    } catch (err) {
+      return res.status(201).send(data);
+    }
   },
-  getSingleItem: (req, res) => {
-    model.fetchSingleProduct(req.query, (err, data) => {
-      if (err) res.status(404).send(err);
-      res.status(200).send(data);
-    });
+  getSingleItem: async (req, res) => {
+    try {
+      const results = model.fetchSingleProduct(req.query);
+      return res.status(200).send(data);
+    } catch (err) {
+      return res.status(404).send(err);
+    }
   },
-  addProduct: (req, res) => {
-    model.createProduct(req.body, (err, data) => {
-      if (err) res.status(404).send(err);
-      console.log("made it here, ", data);
-      res.status(201).send(data);
-    });
+  addProduct: async (req, res) => {
+    try {
+      const results = model.createProduct(req.body);
+      return res.status(201).send(results);
+    } catch (err) {
+      return res.status(404).send(err);
+    }
   }
 };
